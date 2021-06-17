@@ -1,0 +1,641 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SchoolModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Bimester">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Class">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ClassStudent">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ClassId" Type="int" Nullable="false" />
+          <Property Name="StudentId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Discipline">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DisciplineContent">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DisciplineId" Type="int" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PresenceRegisterClass">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ClassId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="BimesterId" Type="int" Nullable="false" />
+          <Property Name="DisciplineContentId" Type="int" Nullable="false" />
+          <Property Name="DateRegister" Type="datetime" Nullable="false" />
+          <Property Name="DescriptionContent" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="PresenceStudent">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StudentId" Type="int" Nullable="false" />
+          <Property Name="PresenceRegisterClassId" Type="int" Nullable="false" />
+          <Property Name="WasPresent" Type="bit" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="Student">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DisciplineId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_ClassStudent_Class">
+          <End Role="Class" Type="Self.Class" Multiplicity="1" />
+          <End Role="ClassStudent" Type="Self.ClassStudent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Class">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ClassStudent">
+              <PropertyRef Name="ClassId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ClassStudent_Student">
+          <End Role="Student" Type="Self.Student" Multiplicity="1" />
+          <End Role="ClassStudent" Type="Self.ClassStudent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Student">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ClassStudent">
+              <PropertyRef Name="StudentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DisciplineContent_Discipline">
+          <End Role="Discipline" Type="Self.Discipline" Multiplicity="1" />
+          <End Role="DisciplineContent" Type="Self.DisciplineContent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Discipline">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DisciplineContent">
+              <PropertyRef Name="DisciplineId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PresenceRegisterClass_Bimester">
+          <End Role="Bimester" Type="Self.Bimester" Multiplicity="1" />
+          <End Role="PresenceRegisterClass" Type="Self.PresenceRegisterClass" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bimester">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PresenceRegisterClass">
+              <PropertyRef Name="BimesterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PresenceRegisterClass_Class">
+          <End Role="Class" Type="Self.Class" Multiplicity="1" />
+          <End Role="PresenceRegisterClass" Type="Self.PresenceRegisterClass" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Class">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PresenceRegisterClass">
+              <PropertyRef Name="ClassId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PresenceRegisterClass_DisciplineContent">
+          <End Role="DisciplineContent" Type="Self.DisciplineContent" Multiplicity="1" />
+          <End Role="PresenceRegisterClass" Type="Self.PresenceRegisterClass" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DisciplineContent">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PresenceRegisterClass">
+              <PropertyRef Name="DisciplineContentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PresenceRegisterClass_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="PresenceRegisterClass" Type="Self.PresenceRegisterClass" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PresenceRegisterClass">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PresenceStudent_PresenceRegisterClass">
+          <End Role="PresenceRegisterClass" Type="Self.PresenceRegisterClass" Multiplicity="1" />
+          <End Role="PresenceStudent" Type="Self.PresenceStudent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PresenceRegisterClass">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PresenceStudent">
+              <PropertyRef Name="PresenceRegisterClassId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PresenceStudent_Student">
+          <End Role="Student" Type="Self.Student" Multiplicity="1" />
+          <End Role="PresenceStudent" Type="Self.PresenceStudent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Student">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PresenceStudent">
+              <PropertyRef Name="StudentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Discipline">
+          <End Role="Discipline" Type="Self.Discipline" Multiplicity="1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Discipline">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="DisciplineId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SchoolModelStoreContainer">
+          <EntitySet Name="Bimester" EntityType="Self.Bimester" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Class" EntityType="Self.Class" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ClassStudent" EntityType="Self.ClassStudent" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Discipline" EntityType="Self.Discipline" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DisciplineContent" EntityType="Self.DisciplineContent" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PresenceRegisterClass" EntityType="Self.PresenceRegisterClass" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PresenceStudent" EntityType="Self.PresenceStudent" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Student" EntityType="Self.Student" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_ClassStudent_Class" Association="Self.FK_ClassStudent_Class">
+            <End Role="Class" EntitySet="Class" />
+            <End Role="ClassStudent" EntitySet="ClassStudent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClassStudent_Student" Association="Self.FK_ClassStudent_Student">
+            <End Role="Student" EntitySet="Student" />
+            <End Role="ClassStudent" EntitySet="ClassStudent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DisciplineContent_Discipline" Association="Self.FK_DisciplineContent_Discipline">
+            <End Role="Discipline" EntitySet="Discipline" />
+            <End Role="DisciplineContent" EntitySet="DisciplineContent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PresenceRegisterClass_Bimester" Association="Self.FK_PresenceRegisterClass_Bimester">
+            <End Role="Bimester" EntitySet="Bimester" />
+            <End Role="PresenceRegisterClass" EntitySet="PresenceRegisterClass" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PresenceRegisterClass_Class" Association="Self.FK_PresenceRegisterClass_Class">
+            <End Role="Class" EntitySet="Class" />
+            <End Role="PresenceRegisterClass" EntitySet="PresenceRegisterClass" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PresenceRegisterClass_DisciplineContent" Association="Self.FK_PresenceRegisterClass_DisciplineContent">
+            <End Role="DisciplineContent" EntitySet="DisciplineContent" />
+            <End Role="PresenceRegisterClass" EntitySet="PresenceRegisterClass" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PresenceRegisterClass_User" Association="Self.FK_PresenceRegisterClass_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="PresenceRegisterClass" EntitySet="PresenceRegisterClass" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PresenceStudent_PresenceRegisterClass" Association="Self.FK_PresenceStudent_PresenceRegisterClass">
+            <End Role="PresenceRegisterClass" EntitySet="PresenceRegisterClass" />
+            <End Role="PresenceStudent" EntitySet="PresenceStudent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PresenceStudent_Student" Association="Self.FK_PresenceStudent_Student">
+            <End Role="Student" EntitySet="Student" />
+            <End Role="PresenceStudent" EntitySet="PresenceStudent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Discipline" Association="Self.FK_User_Discipline">
+            <End Role="Discipline" EntitySet="Discipline" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SchoolModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Bimester">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="PresenceRegisterClass" Relationship="Self.FK_PresenceRegisterClass_Bimester" FromRole="Bimester" ToRole="PresenceRegisterClass" />
+        </EntityType>
+        <EntityType Name="Class">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="ClassStudent" Relationship="Self.FK_ClassStudent_Class" FromRole="Class" ToRole="ClassStudent" />
+          <NavigationProperty Name="PresenceRegisterClass" Relationship="Self.FK_PresenceRegisterClass_Class" FromRole="Class" ToRole="PresenceRegisterClass" />
+        </EntityType>
+        <EntityType Name="ClassStudent">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ClassId" Type="Int32" Nullable="false" />
+          <Property Name="StudentId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Class" Relationship="Self.FK_ClassStudent_Class" FromRole="ClassStudent" ToRole="Class" />
+          <NavigationProperty Name="Student" Relationship="Self.FK_ClassStudent_Student" FromRole="ClassStudent" ToRole="Student" />
+        </EntityType>
+        <EntityType Name="Discipline">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="DisciplineContent" Relationship="Self.FK_DisciplineContent_Discipline" FromRole="Discipline" ToRole="DisciplineContent" />
+          <NavigationProperty Name="User" Relationship="Self.FK_User_Discipline" FromRole="Discipline" ToRole="User" />
+        </EntityType>
+        <EntityType Name="DisciplineContent">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DisciplineId" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Discipline" Relationship="Self.FK_DisciplineContent_Discipline" FromRole="DisciplineContent" ToRole="Discipline" />
+          <NavigationProperty Name="PresenceRegisterClass" Relationship="Self.FK_PresenceRegisterClass_DisciplineContent" FromRole="DisciplineContent" ToRole="PresenceRegisterClass" />
+        </EntityType>
+        <EntityType Name="PresenceRegisterClass">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ClassId" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="BimesterId" Type="Int32" Nullable="false" />
+          <Property Name="DisciplineContentId" Type="Int32" Nullable="false" />
+          <Property Name="DateRegister" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DescriptionContent" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Bimester" Relationship="Self.FK_PresenceRegisterClass_Bimester" FromRole="PresenceRegisterClass" ToRole="Bimester" />
+          <NavigationProperty Name="Class" Relationship="Self.FK_PresenceRegisterClass_Class" FromRole="PresenceRegisterClass" ToRole="Class" />
+          <NavigationProperty Name="DisciplineContent" Relationship="Self.FK_PresenceRegisterClass_DisciplineContent" FromRole="PresenceRegisterClass" ToRole="DisciplineContent" />
+          <NavigationProperty Name="User" Relationship="Self.FK_PresenceRegisterClass_User" FromRole="PresenceRegisterClass" ToRole="User" />
+          <NavigationProperty Name="PresenceStudent" Relationship="Self.FK_PresenceStudent_PresenceRegisterClass" FromRole="PresenceRegisterClass" ToRole="PresenceStudent" />
+        </EntityType>
+        <EntityType Name="PresenceStudent">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StudentId" Type="Int32" Nullable="false" />
+          <Property Name="PresenceRegisterClassId" Type="Int32" Nullable="false" />
+          <Property Name="WasPresent" Type="Boolean" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="PresenceRegisterClass" Relationship="Self.FK_PresenceStudent_PresenceRegisterClass" FromRole="PresenceStudent" ToRole="PresenceRegisterClass" />
+          <NavigationProperty Name="Student" Relationship="Self.FK_PresenceStudent_Student" FromRole="PresenceStudent" ToRole="Student" />
+        </EntityType>
+        <EntityType Name="Student">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="ClassStudent" Relationship="Self.FK_ClassStudent_Student" FromRole="Student" ToRole="ClassStudent" />
+          <NavigationProperty Name="PresenceStudent" Relationship="Self.FK_PresenceStudent_Student" FromRole="Student" ToRole="PresenceStudent" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DisciplineId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Discipline" Relationship="Self.FK_User_Discipline" FromRole="User" ToRole="Discipline" />
+          <NavigationProperty Name="PresenceRegisterClass" Relationship="Self.FK_PresenceRegisterClass_User" FromRole="User" ToRole="PresenceRegisterClass" />
+        </EntityType>
+        <Association Name="FK_PresenceRegisterClass_Bimester">
+          <End Role="Bimester" Type="Self.Bimester" Multiplicity="1" />
+          <End Role="PresenceRegisterClass" Type="Self.PresenceRegisterClass" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bimester">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PresenceRegisterClass">
+              <PropertyRef Name="BimesterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ClassStudent_Class">
+          <End Role="Class" Type="Self.Class" Multiplicity="1" />
+          <End Role="ClassStudent" Type="Self.ClassStudent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Class">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ClassStudent">
+              <PropertyRef Name="ClassId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PresenceRegisterClass_Class">
+          <End Role="Class" Type="Self.Class" Multiplicity="1" />
+          <End Role="PresenceRegisterClass" Type="Self.PresenceRegisterClass" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Class">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PresenceRegisterClass">
+              <PropertyRef Name="ClassId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ClassStudent_Student">
+          <End Role="Student" Type="Self.Student" Multiplicity="1" />
+          <End Role="ClassStudent" Type="Self.ClassStudent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Student">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ClassStudent">
+              <PropertyRef Name="StudentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DisciplineContent_Discipline">
+          <End Role="Discipline" Type="Self.Discipline" Multiplicity="1" />
+          <End Role="DisciplineContent" Type="Self.DisciplineContent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Discipline">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DisciplineContent">
+              <PropertyRef Name="DisciplineId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Discipline">
+          <End Role="Discipline" Type="Self.Discipline" Multiplicity="1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Discipline">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="DisciplineId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PresenceRegisterClass_DisciplineContent">
+          <End Role="DisciplineContent" Type="Self.DisciplineContent" Multiplicity="1" />
+          <End Role="PresenceRegisterClass" Type="Self.PresenceRegisterClass" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DisciplineContent">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PresenceRegisterClass">
+              <PropertyRef Name="DisciplineContentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PresenceRegisterClass_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="PresenceRegisterClass" Type="Self.PresenceRegisterClass" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PresenceRegisterClass">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PresenceStudent_PresenceRegisterClass">
+          <End Role="PresenceRegisterClass" Type="Self.PresenceRegisterClass" Multiplicity="1" />
+          <End Role="PresenceStudent" Type="Self.PresenceStudent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PresenceRegisterClass">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PresenceStudent">
+              <PropertyRef Name="PresenceRegisterClassId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PresenceStudent_Student">
+          <End Role="Student" Type="Self.Student" Multiplicity="1" />
+          <End Role="PresenceStudent" Type="Self.PresenceStudent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Student">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PresenceStudent">
+              <PropertyRef Name="StudentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SchoolEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ListBimester" EntityType="Self.Bimester" />
+          <EntitySet Name="ListClass" EntityType="Self.Class" />
+          <EntitySet Name="ListClassStudent" EntityType="Self.ClassStudent" />
+          <EntitySet Name="ListDiscipline" EntityType="Self.Discipline" />
+          <EntitySet Name="ListDisciplineContent" EntityType="Self.DisciplineContent" />
+          <EntitySet Name="ListPresenceRegisterClass" EntityType="Self.PresenceRegisterClass" />
+          <EntitySet Name="ListPresenceStudent" EntityType="Self.PresenceStudent" />
+          <EntitySet Name="ListStudent" EntityType="Self.Student" />
+          <EntitySet Name="ListUser" EntityType="Self.User" />
+          <AssociationSet Name="FK_PresenceRegisterClass_Bimester" Association="Self.FK_PresenceRegisterClass_Bimester">
+            <End Role="Bimester" EntitySet="ListBimester" />
+            <End Role="PresenceRegisterClass" EntitySet="ListPresenceRegisterClass" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClassStudent_Class" Association="Self.FK_ClassStudent_Class">
+            <End Role="Class" EntitySet="ListClass" />
+            <End Role="ClassStudent" EntitySet="ListClassStudent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PresenceRegisterClass_Class" Association="Self.FK_PresenceRegisterClass_Class">
+            <End Role="Class" EntitySet="ListClass" />
+            <End Role="PresenceRegisterClass" EntitySet="ListPresenceRegisterClass" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClassStudent_Student" Association="Self.FK_ClassStudent_Student">
+            <End Role="Student" EntitySet="ListStudent" />
+            <End Role="ClassStudent" EntitySet="ListClassStudent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DisciplineContent_Discipline" Association="Self.FK_DisciplineContent_Discipline">
+            <End Role="Discipline" EntitySet="ListDiscipline" />
+            <End Role="DisciplineContent" EntitySet="ListDisciplineContent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Discipline" Association="Self.FK_User_Discipline">
+            <End Role="Discipline" EntitySet="ListDiscipline" />
+            <End Role="User" EntitySet="ListUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PresenceRegisterClass_DisciplineContent" Association="Self.FK_PresenceRegisterClass_DisciplineContent">
+            <End Role="DisciplineContent" EntitySet="ListDisciplineContent" />
+            <End Role="PresenceRegisterClass" EntitySet="ListPresenceRegisterClass" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PresenceRegisterClass_User" Association="Self.FK_PresenceRegisterClass_User">
+            <End Role="User" EntitySet="ListUser" />
+            <End Role="PresenceRegisterClass" EntitySet="ListPresenceRegisterClass" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PresenceStudent_PresenceRegisterClass" Association="Self.FK_PresenceStudent_PresenceRegisterClass">
+            <End Role="PresenceRegisterClass" EntitySet="ListPresenceRegisterClass" />
+            <End Role="PresenceStudent" EntitySet="ListPresenceStudent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PresenceStudent_Student" Association="Self.FK_PresenceStudent_Student">
+            <End Role="Student" EntitySet="ListStudent" />
+            <End Role="PresenceStudent" EntitySet="ListPresenceStudent" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SchoolModelStoreContainer" CdmEntityContainer="SchoolEntities">
+          <EntitySetMapping Name="ListBimester">
+            <EntityTypeMapping TypeName="SchoolModel.Bimester">
+              <MappingFragment StoreEntitySet="Bimester">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ListClass">
+            <EntityTypeMapping TypeName="SchoolModel.Class">
+              <MappingFragment StoreEntitySet="Class">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ListClassStudent">
+            <EntityTypeMapping TypeName="SchoolModel.ClassStudent">
+              <MappingFragment StoreEntitySet="ClassStudent">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ClassId" ColumnName="ClassId" />
+                <ScalarProperty Name="StudentId" ColumnName="StudentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ListDiscipline">
+            <EntityTypeMapping TypeName="SchoolModel.Discipline">
+              <MappingFragment StoreEntitySet="Discipline">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ListDisciplineContent">
+            <EntityTypeMapping TypeName="SchoolModel.DisciplineContent">
+              <MappingFragment StoreEntitySet="DisciplineContent">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DisciplineId" ColumnName="DisciplineId" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ListPresenceRegisterClass">
+            <EntityTypeMapping TypeName="SchoolModel.PresenceRegisterClass">
+              <MappingFragment StoreEntitySet="PresenceRegisterClass">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ClassId" ColumnName="ClassId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="BimesterId" ColumnName="BimesterId" />
+                <ScalarProperty Name="DisciplineContentId" ColumnName="DisciplineContentId" />
+                <ScalarProperty Name="DateRegister" ColumnName="DateRegister" />
+                <ScalarProperty Name="DescriptionContent" ColumnName="DescriptionContent" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ListPresenceStudent">
+            <EntityTypeMapping TypeName="SchoolModel.PresenceStudent">
+              <MappingFragment StoreEntitySet="PresenceStudent">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="StudentId" ColumnName="StudentId" />
+                <ScalarProperty Name="PresenceRegisterClassId" ColumnName="PresenceRegisterClassId" />
+                <ScalarProperty Name="WasPresent" ColumnName="WasPresent" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ListStudent">
+            <EntityTypeMapping TypeName="SchoolModel.Student">
+              <MappingFragment StoreEntitySet="Student">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ListUser">
+            <EntityTypeMapping TypeName="SchoolModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DisciplineId" ColumnName="DisciplineId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

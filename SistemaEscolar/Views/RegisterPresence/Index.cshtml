@@ -1,0 +1,21 @@
+﻿@model List<SitemaUnicesumar.Models.ClassViewModel>
+
+@{
+    ViewBag.Title = "Suas Turmas";
+}
+
+<div>
+    <h3 class="page-title">Suas Turmas</h3>
+    <div class="card mt-3">
+        <h4 class="font-weight-600">Nome da Turma</h4>
+        <hr />
+        @foreach (var item in Model)
+        {
+            <a href="@Url.Action("PresenceList","RegisterPresence", new { classId = item.Id} )">
+                <h5 class="text-class">@item.Title</h5>
+            </a>
+            <hr />
+        }
+    </div>
+</div>
+

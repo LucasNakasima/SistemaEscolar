@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="213b16d8e8ef4077b20039cd0f825eed" Name="Diagram1" ZoomLevel="86">
+        <EntityTypeShape EntityType="SchoolModel.Bimester" Width="1.5" PointX="2.75" PointY="0.875" IsExpanded="false" />
+        <EntityTypeShape EntityType="SchoolModel.Class" Width="1.5" PointX="4.5" PointY="4.5" IsExpanded="false" />
+        <EntityTypeShape EntityType="SchoolModel.ClassStudent" Width="1.5" PointX="7.625" PointY="3.875" IsExpanded="false" />
+        <EntityTypeShape EntityType="SchoolModel.Discipline" Width="1.5" PointX="0.75" PointY="2" IsExpanded="false" />
+        <EntityTypeShape EntityType="SchoolModel.DisciplineContent" Width="1.5" PointX="3" PointY="2.375" IsExpanded="false" />
+        <EntityTypeShape EntityType="SchoolModel.PresenceRegisterClass" Width="1.5" PointX="5.375" PointY="2.375" IsExpanded="false" />
+        <EntityTypeShape EntityType="SchoolModel.PresenceStudent" Width="1.5" PointX="7.875" PointY="2.375" IsExpanded="false" />
+        <EntityTypeShape EntityType="SchoolModel.Student" Width="1.5" PointX="5.25" PointY="0.875" IsExpanded="false" />
+        <EntityTypeShape EntityType="SchoolModel.User" Width="1.5" PointX="1.75" PointY="3.75" IsExpanded="false" />
+        <AssociationConnector Association="SchoolModel.FK_PresenceRegisterClass_Bimester" ManuallyRouted="false" />
+        <AssociationConnector Association="SchoolModel.FK_ClassStudent_Class" ManuallyRouted="false" />
+        <AssociationConnector Association="SchoolModel.FK_PresenceRegisterClass_Class" ManuallyRouted="false" />
+        <AssociationConnector Association="SchoolModel.FK_ClassStudent_Student" ManuallyRouted="false" />
+        <AssociationConnector Association="SchoolModel.FK_DisciplineContent_Discipline" ManuallyRouted="false" />
+        <AssociationConnector Association="SchoolModel.FK_User_Discipline" ManuallyRouted="false" />
+        <AssociationConnector Association="SchoolModel.FK_PresenceRegisterClass_DisciplineContent" ManuallyRouted="false" />
+        <AssociationConnector Association="SchoolModel.FK_PresenceRegisterClass_User" ManuallyRouted="false" />
+        <AssociationConnector Association="SchoolModel.FK_PresenceStudent_PresenceRegisterClass" ManuallyRouted="false" />
+        <AssociationConnector Association="SchoolModel.FK_PresenceStudent_Student" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

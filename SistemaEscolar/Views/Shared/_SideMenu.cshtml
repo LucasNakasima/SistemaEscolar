@@ -1,0 +1,25 @@
+﻿@{
+    var pageKey = ViewBag.PageKey;
+}
+
+@using SitemaUnicesumar.Helpers
+
+<div class="side-menu">
+    <ul class="pl-0 pt-menu">
+        <li class="@LayoutHelper.ActivePageMenu(pageKey, "Home") mb-li-menu">
+            <a href="@Url.Action("Index","Home")">
+                <h3 class="text-menu @LayoutHelper.ActivePageMenuText(pageKey, "Home")">Início</h3>
+            </a>
+        </li>
+        <li class="@LayoutHelper.ActivePageMenu(pageKey, "RegisterPresence")  mb-li-menu">
+            <a href="@Url.Action("Index","RegisterPresence")">
+                <h3 class="text-menu @LayoutHelper.ActivePageMenuText(pageKey, "RegisterPresence")">Registrar Presenças</h3>
+            </a>
+        </li>
+        <li class="@LayoutHelper.ActivePageMenu(pageKey, "RegistryClass")  mb-li-menu">
+            <a href="@Url.Action("Index","RegistryClass")">
+                <h3 class="text-menu @LayoutHelper.ActivePageMenuText(pageKey, "RegistryClass")">Registros de Classe</h3>
+            </a>
+        </li>
+    </ul>
+</div>

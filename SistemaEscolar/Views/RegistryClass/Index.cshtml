@@ -1,0 +1,39 @@
+﻿@model List<SitemaUnicesumar.Models.RegisterPresenceViewModel>
+
+@{
+    ViewBag.Title = "Registros de Classe";
+}
+
+<div>
+    <h3 class="page-title">Seus Registros de Classe</h3>
+    <div class="card mt-3">
+        <div class="row d-flex">
+            <div class="col-4 pl-4">
+                <h4 class="font-weight-600 pl-3 mb-0" style="margin-right: 7rem;">Turma</h4>
+            </div>
+            <div class="col-4">
+                <h4 class="font-weight-600 mb-0">Data do Registro</h4>
+            </div>
+        </div>
+        <hr />
+        @{var index = 1; }
+        @foreach (var item in Model)
+        {
+            <a class="row d-flex pl-3" href="@Url.Action("GetRegistryClass","RegistryClass", new { registryId = item.Id} )">
+                <div class="col-4">
+                    <h5 class="text-class mt-0 mb-0" style="margin-right: 24px;">@index.</h5>
+                </div>
+                <div class="col-4">
+                    <h5 class="text-class mt-0 mb-0" style="margin-right: 60px;">@item.ClassTitle</h5>
+                </div>
+                <div class="col-4">
+                    <h5 class="text-class mt-0 mb-0">@item.StrDateRegister</h5>
+                </div>
+            </a>
+            <hr />
+            index++;
+        }
+    </div>
+</div>
+
+
